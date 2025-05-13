@@ -27,7 +27,6 @@ Este es un proyecto web fullstack que permite administrar un catálogo de **inst
 - Base de datos MySQL WorkBench
 - CORS habilitado para desarrollo (`localhost:5173`)
 
-
 ---
 
 ## 🌐 URLs principales
@@ -58,23 +57,23 @@ Este es un proyecto web fullstack que permite administrar un catálogo de **inst
 ✅ Editar  
 ✅ Eliminar  
 
+### Carrito de Compras
+✅ Agregar instrumentos al carrito  
+✅ Calcular total del pedido  
+✅ Enviar pedido al backend  
+✅ Confirmar guardado con mensaje e ID del pedido
+
 ---
 
 ## 🚀 ¿Cómo correr el proyecto?
 
 ### Backend (Spring Boot)
 1. Abrir el proyecto en tu IDE (IntelliJ, Eclipse, etc.)
-2. Acceder a MySQL WorckBench, crear la tabla InstrumentosDB.
+2. Acceder a MySQL Workbench, crear la base de datos `InstrumentosDB`.
 3. Correr la clase principal: `UtnApplication.java`
-
 
 ### Frontend (React + Vite)
 1. En la carpeta del frontend:
 ```bash
 npm install
 npm run dev
-
-
-
-
- 
