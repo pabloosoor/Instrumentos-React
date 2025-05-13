@@ -8,6 +8,7 @@ import { CategoriesCrud } from './modules/admin/CategoriesCRUD';
 import { InstrumentsCrud } from "./modules/admin/InstrumentsCrud";
 import { CarritoProvider } from './components/CarritoContext';
 import Carrito from './components/Carrito';
+import MercadoPagoCallback from './components/MercadoPagoCallback';
 
 function App() {
   return (
@@ -43,6 +44,10 @@ function App() {
             <Route
               path="/instrumentos"
               element={<InstrumentsCrud />}
+            />
+            <Route
+              path="/payment/callback"
+              element={<MercadoPagoCallback />}
             />
           </Routes>
         </div>

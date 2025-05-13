@@ -16,9 +16,10 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping
-    public ResponseEntity<String> guardarPedido(@RequestBody Pedido pedido) {
+    public ResponseEntity<Pedido> guardarPedido(@RequestBody Pedido pedido) {
         Pedido saved = pedidoService.savePedido(pedido);
-        return ResponseEntity.ok("El pedido con id " + saved.getId() + " se guardó correctamente");
+        return ResponseEntity.ok(saved);
     }
+
 }
 

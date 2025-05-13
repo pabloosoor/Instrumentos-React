@@ -11,6 +11,8 @@ export function InstrumentsCrud() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Instrumento | null>(null);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [instrumentToDelete, setInstrumentToDelete] = useState<Instrumento | null>(null);
 
   useEffect(() => {
     Promise.all([
@@ -48,17 +50,27 @@ export function InstrumentsCrud() {
   };
 
   const handleDelete = (row: Instrumento) => {
+    setInstrumentToDelete(row);
+    setShowConfirmDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    if (!instrumentToDelete) return;
     setLoading(true);
-    fetch(`http://localhost:8080/api/instrumentos/${row.id}`, {
+    fetch(`http://localhost:8080/api/instrumentos/${instrumentToDelete.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
       }
-    })    
+    })
       .then(() => fetch('http://localhost:8080/api/instrumentos'))
       .then(res => res.json())
       .then((data: Instrumento[]) => setInstruments(data))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        setShowConfirmDeleteModal(false);
+        setInstrumentToDelete(null);
+      });
   };
 
   const formConfig: FieldConfig<Instrumento>[] = instrumentFormConfig.map(field =>
@@ -89,7 +101,10 @@ export function InstrumentsCrud() {
         fields={formConfig}
         initialValues={
           editing
-            ? { ...editing, categoria: editing.categoria?.id ?? '' }
+            ? ({
+                ...Object.fromEntries(Object.entries(editing).filter(([key]) => key !== 'categoria')),
+                ...(editing.categoria && typeof editing.categoria === 'object' ? { categoria: editing.categoria.id } : {})
+              } as Partial<Instrumento>)
             : {}
         }
         open={showForm}
@@ -98,6 +113,29 @@ export function InstrumentsCrud() {
         loading={loading}
         title={editing ? 'Editar Instrumento' : 'Nuevo Instrumento'}
       />
+      {/* Modal de confirmación de borrado */}
+      {showConfirmDeleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
+          <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md text-center">
+            <h2 className="text-xl font-semibold text-red-600 mb-4">Confirmar eliminación</h2>
+            <p className="text-gray-700 mb-6">¿Estás seguro de que deseas eliminar este instrumento? Esta acción no se puede deshacer.</p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => { setShowConfirmDeleteModal(false); setInstrumentToDelete(null); }}
+                className="bg-gray-300 text-gray-800 px-6 py-2 rounded-lg font-semibold hover:bg-gray-400"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="bg-pink-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-pink-700"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

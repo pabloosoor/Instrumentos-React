@@ -1,5 +1,6 @@
 package intrumentos.utn.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -15,8 +16,8 @@ public class Pedido {
     private Double totalPedido;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<PedidoDetalle> detalles;
-
     // Getters y Setters
 
     public Long getId() {
@@ -51,6 +52,6 @@ public class Pedido {
         this.detalles = detalles;
         for (PedidoDetalle detalle : detalles) {
             detalle.setPedido(this);
-        }
+        }//borrar for
     }
 }
