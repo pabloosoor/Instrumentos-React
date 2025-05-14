@@ -1,4 +1,3 @@
-// c:\Users\Lautaro\Documents\GitHub\Instrumentos-back-UTN-Lab4\src\main\java\com\example\instrumentos\controller\InstrumentoController.java
 package intrumentos.utn.controller;
 
 import intrumentos.utn.model.Instrumento;
@@ -6,6 +5,7 @@ import intrumentos.utn.service.InstrumentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -16,11 +16,13 @@ public class InstrumentoController {
     @Autowired
     private InstrumentoService service;
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     @GetMapping
     public List<Instrumento> getAll() {
         return service.findAll();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     @GetMapping("/{id}")
     public ResponseEntity<Instrumento> getById(@PathVariable Long id) {
         Instrumento instrumento = service.findById(id);
@@ -30,12 +32,14 @@ public class InstrumentoController {
         return ResponseEntity.ok(instrumento);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Instrumento> create(@RequestBody Instrumento instrumento) {
         Instrumento saved = service.save(instrumento);
         return ResponseEntity.ok(saved);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERADOR')")
     @PutMapping("/{id}")
     public ResponseEntity<Instrumento> update(@PathVariable Long id, @RequestBody Instrumento instrumento) {
         instrumento.setId(id);
@@ -43,6 +47,7 @@ public class InstrumentoController {
         return ResponseEntity.ok(updated);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         Instrumento instrumento = service.findById(id);

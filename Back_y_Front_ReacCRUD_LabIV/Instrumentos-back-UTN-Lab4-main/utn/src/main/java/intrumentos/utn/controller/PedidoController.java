@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/pedidos")
+@CrossOrigin(origins = "http://localhost:5173")
+
 public class PedidoController {
 
     @Autowired

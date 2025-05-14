@@ -4,6 +4,7 @@ import { GenericForm, FieldConfig } from '../GenericForm';
 import { instrumentTableConfig, instrumentFormConfig } from '../configs/instrumentConfig';
 import { Instrumento } from '../../models/Instrumento';
 import { Categoria } from '../../models/Categoria';
+import { useAuth } from '../../context/AuthContext';
 
 export function InstrumentsCrud() {
   const [instruments, setInstruments] = useState<Instrumento[]>([]);
@@ -13,11 +14,12 @@ export function InstrumentsCrud() {
   const [editing, setEditing] = useState<Instrumento | null>(null);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [instrumentToDelete, setInstrumentToDelete] = useState<Instrumento | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     Promise.all([
-      fetch('http://localhost:8080/api/instrumentos').then(res => res.json()),
-      fetch('http://localhost:8080/api/categoria').then(res => res.json())
+      fetch('http://localhost:8080/api/instrumentos', { credentials: 'include' }).then(res => res.json()),
+      fetch('http://localhost:8080/api/categoria', { credentials: 'include' }).then(res => res.json())
     ]).then(([inst, cats]: [Instrumento[], Categoria[]]) => {
       setInstruments(inst);
       setCategories(cats);
@@ -37,12 +39,13 @@ export function InstrumentsCrud() {
       method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(values),
+      credentials: 'include',
     })
       .then(res => res.json())
       .then(() => {
         setShowForm(false);
         setEditing(null);
-        return fetch('http://localhost:8080/api/instrumentos')
+        return fetch('http://localhost:8080/api/instrumentos', { credentials: 'include' })
           .then(res => res.json())
           .then((data: Instrumento[]) => setInstruments(data));
       })
@@ -61,9 +64,10 @@ export function InstrumentsCrud() {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      credentials: 'include',
     })
-      .then(() => fetch('http://localhost:8080/api/instrumentos'))
+      .then(() => fetch('http://localhost:8080/api/instrumentos', { credentials: 'include' }))
       .then(res => res.json())
       .then((data: Instrumento[]) => setInstruments(data))
       .finally(() => {
@@ -83,18 +87,20 @@ export function InstrumentsCrud() {
     <div className="p-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Instrumentos</h1>
-        <button
-          onClick={() => { setEditing(null); setShowForm(true); }}
-          className="bg-pink-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-pink-700"
-        >
-          Nuevo Instrumento
-        </button>
+        {user?.rol === 'ADMIN' && (
+          <button
+            onClick={() => { setEditing(null); setShowForm(true); }}
+            className="bg-pink-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-pink-700"
+          >
+            Nuevo Instrumento
+          </button>
+        )}
       </div>
       <GenericTable<Instrumento>
         columns={instrumentTableConfig.columns}
         data={instruments}
-        onEdit={row => { setEditing(row); setShowForm(true); }}
-        onDelete={handleDelete}
+        onEdit={(user?.rol === 'ADMIN' || user?.rol === 'OPERADOR') ? row => { setEditing(row); setShowForm(true); } : undefined}
+        onDelete={user?.rol === 'ADMIN' ? handleDelete : undefined}
         loading={loading}
       />
       <GenericForm<Instrumento>
