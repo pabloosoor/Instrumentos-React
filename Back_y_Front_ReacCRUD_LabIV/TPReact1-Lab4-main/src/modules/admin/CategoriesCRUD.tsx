@@ -3,6 +3,7 @@ import { GenericTable } from '../GenericTable';
 import { GenericForm } from '../GenericForm';
 import { categoryTableConfig, categoryFormConfig } from '../configs/categoryConfig';
 import { Categoria } from '../../models/Categoria';
+import { useAuth } from '../../context/AuthContext';
 
 export function CategoriesCrud() {
   const [categories, setCategories] = useState<Categoria[]>([]);
@@ -13,9 +14,10 @@ export function CategoriesCrud() {
   const [errorMessage, setErrorMessage] = useState('');
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<Categoria | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/categoria')
+    fetch('http://localhost:8080/api/categoria', { credentials: 'include' })
       .then(res => res.json())
       .then((data: Categoria[]) => {
         setCategories(data);
@@ -32,12 +34,13 @@ export function CategoriesCrud() {
       method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(values),
+      credentials: 'include',
     })
       .then(res => res.json())
       .then(() => {
         setShowForm(false);
         setEditing(null);
-        return fetch('http://localhost:8080/api/categoria')
+        return fetch('http://localhost:8080/api/categoria', { credentials: 'include' })
           .then(res => res.json())
           .then((data: Categoria[]) => setCategories(data));
       })
@@ -56,13 +59,14 @@ export function CategoriesCrud() {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      credentials: 'include',
     })
       .then(res => {
         if (!res.ok) {
           throw new Error("No se pudo eliminar la categoría. Puede tener instrumentos asociados.");
         }
-        return fetch('http://localhost:8080/api/categoria');
+        return fetch('http://localhost:8080/api/categoria', { credentials: 'include' });
       })
       .then(res => res.json())
       .then((data: Categoria[]) => setCategories(data))
@@ -81,19 +85,21 @@ export function CategoriesCrud() {
     <div className="p-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Categorías</h1>
-        <button
-          onClick={() => { setEditing(null); setShowForm(true); }}
-          className="bg-pink-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-pink-700"
-        >
-          Nueva Categoría
-        </button>
+        {user?.rol === 'ADMIN' && (
+          <button
+            onClick={() => { setEditing(null); setShowForm(true); }}
+            className="bg-pink-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-pink-700"
+          >
+            Nueva Categoría
+          </button>
+        )}
       </div>
 
       <GenericTable<Categoria>
         columns={categoryTableConfig.columns}
         data={categories}
-        onEdit={row => { setEditing(row); setShowForm(true); }}
-        onDelete={handleDelete}
+        onEdit={(user?.rol === 'ADMIN' || user?.rol === 'OPERADOR') ? row => { setEditing(row); setShowForm(true); } : undefined}
+        onDelete={user?.rol === 'ADMIN' ? handleDelete : undefined}
         loading={loading}
       />
 

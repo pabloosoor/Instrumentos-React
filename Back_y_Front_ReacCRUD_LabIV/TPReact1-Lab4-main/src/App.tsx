@@ -6,9 +6,11 @@ import DetalleInstrumento from './components/DetalleInstrumento';
 import DondeEstamos from './components/DondeEstamos';
 import { CategoriesCrud } from './modules/admin/CategoriesCRUD';
 import { InstrumentsCrud } from "./modules/admin/InstrumentsCrud";
-import { CarritoProvider } from './components/CarritoContext';
+import { CarritoProvider } from './context/CarritoContext';
 import Carrito from './components/Carrito';
 import MercadoPagoCallback from './components/MercadoPagoCallback';
+import LoginForm from './components/LoginForm';
+import PrivateRoute from './config/RutasPrivadas';
 
 function App() {
   return (
@@ -39,15 +41,27 @@ function App() {
             />
             <Route
               path="/categorias"
-              element={<CategoriesCrud />}
+              element={
+                <PrivateRoute allowedRoles={['ADMIN']}>
+                  <CategoriesCrud />
+                </PrivateRoute>
+              }
             />
             <Route
               path="/instrumentos"
-              element={<InstrumentsCrud />}
+              element={
+                <PrivateRoute allowedRoles={['ADMIN']}>
+                  <InstrumentsCrud />
+                </PrivateRoute>
+              }
             />
             <Route
               path="/payment/callback"
               element={<MercadoPagoCallback />}
+            />
+            <Route
+              path="/login"
+              element={<LoginForm />}
             />
           </Routes>
         </div>

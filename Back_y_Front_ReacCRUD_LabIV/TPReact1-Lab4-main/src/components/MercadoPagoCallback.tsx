@@ -13,8 +13,8 @@ const MercadoPagoCallback: React.FC = () => {
       // Obtenemos los parámetros que envía Mercado Pago en la URL
       const paymentId = searchParams.get('payment_id');
       const status = searchParams.get('status');
-      const merchantOrderId = searchParams.get('merchant_order_id');
-      const externalReference = searchParams.get('external_reference');
+      //const merchantOrderId = searchParams.get('merchant_order_id');
+      //const externalReference = searchParams.get('external_reference');
 
       if (!paymentId || !status) {
         setStatus('failure');

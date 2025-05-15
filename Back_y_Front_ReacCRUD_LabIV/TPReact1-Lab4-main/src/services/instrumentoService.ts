@@ -7,7 +7,7 @@ console.log('✅ VITE_API_URL:', import.meta.env.VITE_API_URL);
 
 
 export async function getInstrumentos(): Promise<Instrumento[]> {
-  const res = await fetch(`${API_URL}/api/instrumentos`);
+  const res = await fetch(`${API_URL}/api/instrumentos`, { credentials: 'include' });
   if (!res.ok) throw new Error('Error al obtener instrumentos');
   const data = await res.json();
   // Si el backend devuelve { data: [...] }
@@ -16,7 +16,7 @@ export async function getInstrumentos(): Promise<Instrumento[]> {
 }
 
 export async function getInstrumentoById(id: string): Promise<Instrumento> {
-  const res = await fetch(`${API_URL}/api/instrumentos/${id}`);
+  const res = await fetch(`${API_URL}/api/instrumentos/${id}`, { credentials: 'include' });
   if (!res.ok) throw new Error('Instrumento no encontrado');
   const data = await res.json();
   // Si el backend devuelve { data: {...} }
