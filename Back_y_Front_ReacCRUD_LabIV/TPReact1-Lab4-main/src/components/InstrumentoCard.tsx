@@ -10,7 +10,7 @@ function InstrumentoCard({
   const { addCarrito } = useCarrito();
 
   return (
-    <div className="flex gap-4 item-container bg-white shadow-lg rounded-lg overflow-hidden p-4 transition-transform duration-300 hover:scale-105">
+    <div className="w-72 flex flex-col item-container bg-white shadow-lg rounded-lg overflow-hidden p-3 transition-transform duration-300 hover:scale-105">
       <Link to={`/detalle/${instrumento.id}`} className="flex-1">
         <img
           src={`/img/${instrumento.imagen}`}
