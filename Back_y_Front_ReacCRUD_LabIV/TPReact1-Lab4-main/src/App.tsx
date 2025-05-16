@@ -42,7 +42,7 @@ function App() {
             <Route
               path="/categorias"
               element={
-                <PrivateRoute allowedRoles={['ADMIN']}>
+                <PrivateRoute allowedRoles={['ADMIN','OPERADOR']}>
                   <CategoriesCrud />
                 </PrivateRoute>
               }
@@ -50,7 +50,7 @@ function App() {
             <Route
               path="/instrumentos"
               element={
-                <PrivateRoute allowedRoles={['ADMIN']}>
+                <PrivateRoute allowedRoles={['ADMIN','OPERADOR']}>
                   <InstrumentsCrud />
                 </PrivateRoute>
               }
