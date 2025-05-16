@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/pedidos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/pedidos/reportes/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/pedidos/exportar-excel").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/instrumentos/pdf/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/instrumentos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/categoria/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/mercadopago/**").permitAll()

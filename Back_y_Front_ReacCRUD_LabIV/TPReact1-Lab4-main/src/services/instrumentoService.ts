@@ -23,3 +23,24 @@ export async function getInstrumentoById(id: string): Promise<Instrumento> {
   const item = data.data ?? data;
   return new Instrumento(item);
 }
+
+// NUEVA función para descargar PDF
+export async function descargarInstrumentoPDF(id: number): Promise<void> {
+  const res = await fetch(`${API_URL}/api/instrumentos/pdf/${id}`, {
+    method: 'GET',
+    credentials: 'include', // Envía cookies para autenticación
+  });
+
+  if (!res.ok) {
+    throw new Error('Error al descargar el PDF');
+  }
+
+  const blob = await res.blob();
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `instrumento_${id}.pdf`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}

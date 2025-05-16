@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getInstrumentoById } from '../services/instrumentoService';
 import { Instrumento } from '../models/Instrumento';
 import { useCarrito } from '../hooks/UseCarrito';
+import { descargarInstrumentoPDF } from '../services/instrumentoService';
 
 function DetalleInstrumento() {
   const { id } = useParams();
@@ -95,6 +96,19 @@ function DetalleInstrumento() {
             disabled={agregado}
           >
             {agregado ? '¡Agregado!' : 'Añadir al carrito'}
+          </button>
+          <button
+            onClick={() => {
+              if (instrumento) {
+                descargarInstrumentoPDF(instrumento.id).catch((err) => {
+                  console.error('Error al descargar PDF:', err);
+                  alert('No se pudo descargar el PDF.');
+                });
+              }
+            }}
+            className="mt-2 px-4 py-2 border border-purple-600 text-purple-700 rounded hover:bg-purple-100 transition"
+          >
+            Descargar PDF
           </button>
           {agregado && (
             <span className="text-green-600 mt-2 animate-pulse">Producto añadido al carrito</span>
