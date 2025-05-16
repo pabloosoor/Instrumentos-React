@@ -11,6 +11,8 @@ import Carrito from './components/Carrito';
 import MercadoPagoCallback from './components/MercadoPagoCallback';
 import LoginForm from './components/LoginForm';
 import PrivateRoute from './config/RutasPrivadas';
+import Reportes from './components/Reportes'; // 👈 Import nuevo
+import ExportarExcel from './components/ExportarExcel';
 
 function App() {
   return (
@@ -19,26 +21,13 @@ function App() {
         <Navbar />
         <div className="min-h-screen bg-gray-100 p-4 pt-20">
           <Routes>
-            <Route
-              path="/"
-              element={<Home />}
-            />
-            <Route
-              path="/productos"
-              element={<Productos />}
-            />
-            <Route
-              path="/detalle/:id"
-              element={<DetalleInstrumento />}
-            />
-            <Route
-              path="/donde-estamos"
-              element={<DondeEstamos />}
-            />
-            <Route
-              path="/carrito"
-              element={<Carrito />}
-            />
+            <Route path="/" element={<Home />} />
+            <Route path="/productos" element={<Productos />} />
+            <Route path="/detalle/:id" element={<DetalleInstrumento />} />
+            <Route path="/donde-estamos" element={<DondeEstamos />} />
+            <Route path="/carrito" element={<Carrito />} />
+            <Route path="/payment/callback" element={<MercadoPagoCallback />} />
+            <Route path="/login" element={<LoginForm />} />
             <Route
               path="/categorias"
               element={
@@ -56,12 +45,20 @@ function App() {
               }
             />
             <Route
-              path="/payment/callback"
-              element={<MercadoPagoCallback />}
+              path="/reportes"
+              element={
+                <PrivateRoute allowedRoles={['ADMIN','OPERADOR']}>
+                  <Reportes />
+                </PrivateRoute>
+              }
             />
             <Route
-              path="/login"
-              element={<LoginForm />}
+              path="/exportar"
+              element={
+                <PrivateRoute allowedRoles={['ADMIN', 'OPERADOR']}>
+                  <ExportarExcel />
+                </PrivateRoute>
+              }
             />
           </Routes>
         </div>
