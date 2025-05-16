@@ -17,7 +17,7 @@ function App() {
     <CarritoProvider>
       <Router>
         <Navbar />
-        <div className="min-h-screen bg-gray-100 p-4">
+        <div className="min-h-screen bg-gray-100 p-4 pt-20">
           <Routes>
             <Route
               path="/"
