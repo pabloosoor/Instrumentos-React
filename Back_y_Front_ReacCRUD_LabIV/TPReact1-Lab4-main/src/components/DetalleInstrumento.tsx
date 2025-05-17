@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { getInstrumentoById } from '../services/instrumentoService';
 import { Instrumento } from '../models/Instrumento';
 import { useCarrito } from '../hooks/UseCarrito';
-import { descargarInstrumentoPDF } from '../services/instrumentoService';
 
 function DetalleInstrumento() {
   const { id } = useParams();
@@ -46,6 +45,7 @@ function DetalleInstrumento() {
           </p>
           {instrumento.costoEnvio === 'G' ? (
             <div className="item-envio gratis flex items-center gap-2 text-green-600 mt-2">
+              {/* Icono camión */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -56,15 +56,12 @@ function DetalleInstrumento() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="icon icon-tabler icons-tabler-outline icon-tabler-truck">
-                <path
-                  stroke="none"
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-                <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                <path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" />
+                className="icon icon-tabler icon-tabler-truck"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <circle cx="7" cy="17" r="2" />
+                <circle cx="17" cy="17" r="2" />
+                <path d="M5 17h-2v-11a1 1 0 0 1 1-1h9v12m-4 0h6m4 0h2v-6h-8m0-5h5l3 5" />
               </svg>
               Envío gratis a todo el país
             </div>
@@ -84,31 +81,18 @@ function DetalleInstrumento() {
           </div>
           <div className="mt-2">
             <h3 className="text-lg font-semibold mb-1">Descripción:</h3>
-            <p className="text-gray-700 text-sm whitespace-pre-line">
-              {instrumento.descripcion}
-            </p>
+            <p className="text-gray-700 text-sm whitespace-pre-line">{instrumento.descripcion}</p>
           </div>
         </div>
         <div className="flex flex-col justify-center">
           <button
-            className={`mt-2 px-4 py-2 border border-blue-400 text-blue-600 rounded hover:bg-blue-50 transition ${agregado ? 'bg-green-100 border-green-400 text-green-700 scale-105' : ''}`}
+            className={`mt-2 px-4 py-2 border border-blue-400 text-blue-600 rounded hover:bg-blue-50 transition ${
+              agregado ? 'bg-green-100 border-green-400 text-green-700 scale-105' : ''
+            }`}
             onClick={handleAgregar}
             disabled={agregado}
           >
             {agregado ? '¡Agregado!' : 'Añadir al carrito'}
-          </button>
-          <button
-            onClick={() => {
-              if (instrumento) {
-                descargarInstrumentoPDF(instrumento.id).catch((err) => {
-                  console.error('Error al descargar PDF:', err);
-                  alert('No se pudo descargar el PDF.');
-                });
-              }
-            }}
-            className="mt-2 px-4 py-2 border border-purple-600 text-purple-700 rounded hover:bg-purple-100 transition"
-          >
-            Descargar PDF
           </button>
           {agregado && (
             <span className="text-green-600 mt-2 animate-pulse">Producto añadido al carrito</span>
