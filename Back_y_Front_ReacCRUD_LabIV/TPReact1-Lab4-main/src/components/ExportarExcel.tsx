@@ -40,7 +40,7 @@ const ExportarExcel = () => {
   };
 
   return (
-    <div className="bg-white p-4 rounded shadow mb-8 text-center">
+    <div className="bg-white p-4 rounded shadow mb-8 text-center border-2 border-green-600">
       <h2 className="text-lg font-semibold mb-4">Exportar pedidos a Excel</h2>
       <div className="flex flex-col md:flex-row items-center justify-center gap-4">
         <div>
@@ -63,7 +63,7 @@ const ExportarExcel = () => {
         </div>
         <button
           onClick={handleExportar}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
         >
           Exportar
         </button>
