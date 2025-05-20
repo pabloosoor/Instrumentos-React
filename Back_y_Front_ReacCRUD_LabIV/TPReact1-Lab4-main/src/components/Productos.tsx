@@ -5,6 +5,7 @@ import { getCategorias } from '../services/categoriaService';
 import { Instrumento } from '../models/Instrumento';
 import { Categoria } from '../models/Categoria';
 import InstrumentoCard from './InstrumentoCard';
+import PageLayout from './PageLayout';
 
 function Productos() {
   const [filtro, setFiltro] = useState('');
@@ -47,9 +48,8 @@ function Productos() {
   });
 
   return (
-    <div className="p-4 flex justify-center">
+    <PageLayout title="Productos">
       <div className="w-full max-w-full">
-        <h1 className="text-3xl font-bold mb-6 text-center">Productos</h1>
         <div className="flex justify-center mb-4">
           <input
             type="text"
@@ -100,7 +100,7 @@ function Productos() {
           </p>
         )}
       </div>
-    </div>
+    </PageLayout>
   );
 }
 

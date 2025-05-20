@@ -5,6 +5,7 @@ import { instrumentTableConfig, instrumentFormConfig } from '../configs/instrume
 import { Instrumento } from '../../models/Instrumento';
 import { Categoria } from '../../models/Categoria';
 import { useAuth } from '../../context/AuthContext';
+import PageLayout from '../../components/PageLayout';
 
 export function InstrumentsCrud() {
   const [instruments, setInstruments] = useState<Instrumento[]>([]);
@@ -84,7 +85,7 @@ export function InstrumentsCrud() {
   );
 
   return (
-    <div className="p-8">
+    <PageLayout title="Instrumentos">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Instrumentos</h1>
         {user?.rol === 'ADMIN' && (
@@ -142,6 +143,6 @@ export function InstrumentsCrud() {
           </div>
         </div>
       )}
-    </div>
+    </PageLayout>
   );
 }

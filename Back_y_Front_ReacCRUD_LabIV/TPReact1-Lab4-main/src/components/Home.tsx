@@ -1,4 +1,3 @@
-
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; // Optional style for arrows
 import "slick-carousel/slick/slick-theme.css";
@@ -17,9 +16,16 @@ function Home() {
   return (
     <div className="p-4">
       {/* Banner */}
-      <div className="bg-cover bg-center h-64 mb-4" style={{ backgroundImage: `url('/img/banner.jpeg')` }}>
-        <div className="flex items-center justify-center h-full text-white">
-          <h1 className="text-4xl font-bold">Musical Hendrix</h1>
+      <div 
+        className="bg-cover bg-center h-80 md:h-96 mb-8 rounded-lg shadow-xl relative overflow-hidden"
+        style={{ backgroundImage: `url('/img/banner.jpeg')` }}
+      >
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="backdrop-blur-md bg-gradient-to-r from-violet-700/60 via-indigo-400/50 to-cyan-300/60 rounded-xl px-8 py-4 shadow-lg">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center drop-shadow-lg">
+              Musical Hendrix
+            </h1>
+          </div>
         </div>
       </div>
 
@@ -35,13 +41,13 @@ function Home() {
         <h2 className="text-2xl font-bold mb-2">Explora nuestros instrumentos:</h2>
         <Slider {...settings}>
           <div>
-            <img src="/img/nro1.jpg" alt="Instrumento 1" className="w-full h-64 object-cover" />
+            <img src="/img/carrusel1.png" alt="Instrumento 1" className="w-full h-64 object-cover" />
           </div>
           <div>
-            <img src="/img/nro2.jpg" alt="Instrumento 2" className="w-full h-64 object-cover" />
+            <img src="/img/carrusel2.png" alt="Instrumento 2" className="w-full h-64 object-cover" />
           </div>
           <div>
-            <img src="/img/nro3.jpg" alt="Instrumento 3" className="w-full h-64 object-cover" />
+            <img src="/img/carrusel3.png" alt="Instrumento 3" className="w-full h-64 object-cover" />
           </div>
         </Slider>
       </div>

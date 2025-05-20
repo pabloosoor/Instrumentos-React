@@ -13,6 +13,7 @@ import ExportarExcel from "./ExportarExcel";
 import { Instrumento } from "../models/Instrumento";
 import { getInstrumentos } from "../services/instrumentoService";
 import { descargarInstrumentoPDF } from "../services/instrumentoService";
+import PageLayout from "./PageLayout";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend, ArcElement);
 
@@ -120,7 +121,9 @@ const Reportes = () => {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
+    <PageLayout title="Reportes">
+      <div className="p-8 max-w-7xl mx-auto">
+      
 
       {/* Gráficos lado a lado */}
       <div
@@ -250,6 +253,7 @@ const Reportes = () => {
         </div>
       </div>
     </div>
+    </PageLayout>
   );
 };
 

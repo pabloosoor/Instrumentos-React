@@ -4,6 +4,7 @@ import { GenericForm } from '../GenericForm';
 import { categoryTableConfig, categoryFormConfig } from '../configs/categoryConfig';
 import { Categoria } from '../../models/Categoria';
 import { useAuth } from '../../context/AuthContext';
+import PageLayout from '../../components/PageLayout';
 
 export function CategoriesCrud() {
   const [categories, setCategories] = useState<Categoria[]>([]);
@@ -82,7 +83,7 @@ export function CategoriesCrud() {
   };
 
   return (
-    <div className="p-8">
+    <PageLayout title="Categorías">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Categorías</h1>
         {user?.rol === 'ADMIN' && (
@@ -152,6 +153,6 @@ export function CategoriesCrud() {
           </div>
         </div>
       )}
-    </div>
+    </PageLayout>
   );
 }
