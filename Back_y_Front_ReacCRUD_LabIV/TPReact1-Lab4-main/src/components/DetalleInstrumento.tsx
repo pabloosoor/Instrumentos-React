@@ -29,76 +29,75 @@ function DetalleInstrumento() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row gap-8 p-4">
-      {/* Columna Izquierda: Imagen y Descripción */}
-      <div className="md:w-2/3 flex flex-col items-center">
+    <div className="flex justify-center p-4">
+      <div className="w-96 flex flex-col item-container bg-white shadow-lg rounded-lg overflow-hidden p-3 transition-transform duration-300">
         <img
           src={`/img/${instrumento.imagen}`}
           alt={instrumento.instrumento}
-          className="w-full max-w-xl h-64 object-contain mb-4 rounded-lg"
+          className="item-image w-full h-60 object-contain mb-4"
         />
-        <div className="mt-4 w-full">
-          <h2 className="text-lg font-semibold mb-2">Descripción:</h2>
-          <p className="text-gray-700 text-sm whitespace-pre-line">
-            {instrumento.descripcion}
+        <div className="item-info">
+          <h2 className="item-title text-2xl font-semibold text-gray-800">
+            {instrumento.instrumento}
+          </h2>
+          <p className="item-price text-3xl mt-2">
+            ${parseFloat(instrumento.precio.toString()).toLocaleString()}
           </p>
-        </div>
-      </div>
-      {/* Columna Derecha: Info principal */}
-      <div className="md:w-1/3 flex flex-col justify-start border-l border-gray-300 pl-4">
-        <p className="text-sm text-gray-500 mb-1">
-          {instrumento.cantidadVendida} vendidos
-        </p>
-        <h1 className="text-2xl font-bold mb-2">{instrumento.instrumento}</h1>
-        <p className="text-3xl mb-2">
-          $ {parseFloat(instrumento.precio.toString()).toLocaleString()}
-        </p>
-        <div className="mb-0 pb-0">
-          <span className="font-semibold">Marca:</span> {instrumento.marca}
-        </div>
-        <div className="mb-2">
-          <span className="font-semibold">Modelo:</span> {instrumento.modelo}
-        </div>
-        <div className="mb-4 flex flex-col">
-          <span className="font-semibold">Costo Envío:</span>{' '}
           {instrumento.costoEnvio === 'G' ? (
-            <span className="text-green-600 flex items-center gap-1">
+            <div className="item-envio gratis flex items-center gap-2 text-green-600 mt-2">
+              {/* Icono camión */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="inline-block align-middle">
-                <path
-                  stroke="none"
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-                <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                <path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" />
+                className="icon icon-tabler icon-tabler-truck"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <circle cx="7" cy="17" r="2" />
+                <circle cx="17" cy="17" r="2" />
+                <path d="M5 17h-2v-11a1 1 0 0 1 1-1h9v12m-4 0h6m4 0h2v-6h-8m0-5h5l3 5" />
               </svg>
-              Envío gratis
-            </span>
+              Envío gratis a todo el país
+            </div>
           ) : (
-            <span className="text-orange-600">${instrumento.costoEnvio}</span>
+            <p className="item-envio precio text-orange-600 mt-2">
+              Costo de Envío Interior de Argentina: ${instrumento.costoEnvio}
+            </p>
+          )}
+          <p className="item-vendidos text-sm text-gray-600 mt-2">
+            {instrumento.cantidadVendida} vendidos
+          </p>
+          <div className="mt-2">
+            <span className="font-semibold">Marca:</span> {instrumento.marca}
+          </div>
+          <div className="mb-2">
+            <span className="font-semibold">Modelo:</span> {instrumento.modelo}
+          </div>
+          <div className="mt-2">
+            <h3 className="text-lg font-semibold mb-1">Descripción:</h3>
+            <p className="text-gray-700 text-sm whitespace-pre-line">{instrumento.descripcion}</p>
+          </div>
+        </div>
+        <div className="flex flex-col justify-center">
+          <button
+            className={`mt-2 px-4 py-2 border border-blue-400 text-blue-600 rounded hover:bg-blue-50 transition ${
+              agregado ? 'bg-green-100 border-green-400 text-green-700 scale-105' : ''
+            }`}
+            onClick={handleAgregar}
+            disabled={agregado}
+          >
+            {agregado ? '¡Agregado!' : 'Añadir al carrito'}
+          </button>
+          {agregado && (
+            <span className="text-green-600 mt-2 animate-pulse">Producto añadido al carrito</span>
           )}
         </div>
-        <button
-          className={`mt-4 px-4 py-2 max-w-[200px] border border-blue-400 text-blue-600 rounded hover:bg-blue-50 transition ${agregado ? 'bg-green-100 border-green-400 text-green-700 scale-105' : ''}`}
-          onClick={handleAgregar}
-          disabled={agregado}
-        >
-          {agregado ? '¡Agregado!' : 'Agregar al carrito'}
-        </button>
-        {agregado && (
-          <span className="text-green-600 mt-2 animate-pulse">Producto añadido al carrito</span>
-        )}
       </div>
     </div>
   );

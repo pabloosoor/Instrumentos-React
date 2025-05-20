@@ -35,6 +35,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/pedidos/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/pedidos/reportes/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/pedidos/exportar-excel").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/instrumentos/pdf/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/instrumentos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/categoria/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/mercadopago/**").permitAll()
@@ -67,7 +70,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:8080"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // Para enviar cookies o token Authorization

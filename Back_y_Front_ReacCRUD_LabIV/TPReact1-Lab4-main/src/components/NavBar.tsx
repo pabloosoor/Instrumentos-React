@@ -19,10 +19,11 @@ function Navbar() {
           <li><Link to="/productos">Productos</Link></li>
           <li><Link to="/donde-estamos">Donde Estamos</Link></li>
           <li><Link to="/carrito">Carrito</Link></li>
-          {(user?.rol === 'ADMIN' || user?.rol === 'OPERADOR') && (//solo admin y operador ven en la navbar los crud
+          {(user?.rol === 'ADMIN' || user?.rol === 'OPERADOR') && (
             <>
               <li><Link to="/categorias">Categorías</Link></li>
               <li><Link to="/instrumentos">Instrumentos</Link></li>
+              <li><Link to="/reportes">Reportes</Link></li>
             </>
           )}
           {!isAuthenticated ? (
