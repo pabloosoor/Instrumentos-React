@@ -137,7 +137,19 @@ const Reportes = () => {
       >
         <div style={{ flex: "1 1 600px", height: "400px" }}>
           <h2 className="text-xl font-bold mb-8 text-center">Pedidos por Mes/Año</h2>
-          <Bar data={barChartData} options={chartOptions} />
+          <Bar 
+            data={{
+              ...barChartData,
+              datasets: [
+                {
+                  ...barChartData.datasets[0],
+                  // Nos aseguramos que los datos sean enteros
+                  data: barChartData.datasets[0].data.map((valor: any) => parseInt(valor, 10))
+                }
+              ]
+            }} 
+            options={chartOptions} 
+          />
         </div>
         <div style={{ flex: "1 1 400px", height: "400px" }}>
           <h2 className="text-xl font-bold mb-8 text-center">Pedidos por Instrumento</h2>

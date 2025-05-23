@@ -28,8 +28,8 @@ const MercadoPagoButton: React.FC<MercadoPagoButtonProps> = ({
         onSuccess();
       }
       
-      // Redirigir al usuario a la página de pago de MercadoPago
-      window.location.href = preferencia.initPoint;
+      // Redirigir al usuario a la página de pago de MercadoPago en una pestaña aparte
+      window.open(preferencia.initPoint, '_blank');
       
     } catch (err: any) {
       console.error('Error al procesar pago:', err);
