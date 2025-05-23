@@ -19,9 +19,9 @@ public class UtnApplication {
 	@Bean
 	public CommandLineRunner initUsuarios(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
-			crearUsuarioSiNoExiste(usuarioRepository, passwordEncoder, "Admin1", "superadmin123", "ADMIN");
-			crearUsuarioSiNoExiste(usuarioRepository, passwordEncoder, "operador1", "superoperador123", "OPERADOR");
-			crearUsuarioSiNoExiste(usuarioRepository, passwordEncoder, "usuario1", "superusuario123", "VISOR");
+			crearUsuarioSiNoExiste(usuarioRepository, passwordEncoder, "admin1", "admin123", "ADMIN");
+			crearUsuarioSiNoExiste(usuarioRepository, passwordEncoder, "operador1", "operador123", "OPERADOR");
+			crearUsuarioSiNoExiste(usuarioRepository, passwordEncoder, "usuario1", "usuario123", "VISOR");
 		};
 	}
 

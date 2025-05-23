@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
@@ -62,8 +65,13 @@ public class InstrumentoController {
         if (instrumento == null) {
             return ResponseEntity.notFound().build();
         }
-        service.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            service.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (DataIntegrityViolationException e) {
+            // Esto ocurre si hay pedidos asociados al instrumento
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
     // Exportar Instrumento a PDF

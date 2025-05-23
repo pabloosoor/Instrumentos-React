@@ -32,7 +32,9 @@ function Home() {
       {/* Descripción de la tienda */}
       <div className="mb-4">
         <p className="text-lg text-gray-700">
-          Musical Hendrix es una tienda de instrumentos musicales con más de 15 años de experiencia. Tenemos el conocimiento y la capacidad para informarte acerca de las mejores elecciones para tu compra musical.
+          🎸 Bienvenido a <strong>Musical Hendrix</strong>, donde la pasión por la música se convierte en una experiencia única. 
+          Con más de 15 años acompañando a músicos de todos los niveles, te ayudamos a encontrar el instrumento perfecto para que sigas creando, soñando y vibrando con cada nota. 
+          Ya seas principiante o profesional, en nuestra tienda encontrás calidad, asesoramiento y el sonido que estás buscando. 🎶
         </p>
       </div>
 

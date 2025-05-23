@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getInstrumentoById } from '../services/instrumentoService';
 import { Instrumento } from '../models/Instrumento';
 import { useCarrito } from '../hooks/UseCarrito';
+import PageLayout from './PageLayout';
 
 function DetalleInstrumento() {
   const { id } = useParams();
@@ -29,77 +30,79 @@ function DetalleInstrumento() {
   }
 
   return (
-    <div className="flex justify-center p-4">
-      <div className="w-96 flex flex-col item-container bg-white shadow-lg rounded-lg overflow-hidden p-3 transition-transform duration-300">
-        <img
-          src={`/img/${instrumento.imagen}`}
-          alt={instrumento.instrumento}
-          className="item-image w-full h-60 object-contain mb-4"
-        />
-        <div className="item-info">
-          <h2 className="item-title text-2xl font-semibold text-gray-800">
-            {instrumento.instrumento}
-          </h2>
-          <p className="item-price text-3xl mt-2">
-            ${parseFloat(instrumento.precio.toString()).toLocaleString()}
-          </p>
-          {instrumento.costoEnvio === 'G' ? (
-            <div className="item-envio gratis flex items-center gap-2 text-green-600 mt-2">
-              {/* Icono camión */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="icon icon-tabler icon-tabler-truck"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <circle cx="7" cy="17" r="2" />
-                <circle cx="17" cy="17" r="2" />
-                <path d="M5 17h-2v-11a1 1 0 0 1 1-1h9v12m-4 0h6m4 0h2v-6h-8m0-5h5l3 5" />
-              </svg>
-              Envío gratis a todo el país
-            </div>
-          ) : (
-            <p className="item-envio precio text-orange-600 mt-2">
-              Costo de Envío Interior de Argentina: ${instrumento.costoEnvio}
+    <PageLayout title={instrumento.instrumento}>
+      <div className="flex justify-center p-4">
+        <div className="w-96 flex flex-col item-container bg-white shadow-lg rounded-lg overflow-hidden p-3 transition-transform duration-300">
+          <img
+            src={`/img/${instrumento.imagen}`}
+            alt={instrumento.instrumento}
+            className="item-image w-full h-60 object-contain mb-4"
+          />
+          <div className="item-info">
+            <h2 className="item-title text-2xl font-semibold text-gray-800">
+              {instrumento.instrumento}
+            </h2>
+            <p className="item-price text-3xl mt-2">
+              ${parseFloat(instrumento.precio.toString()).toLocaleString()}
             </p>
-          )}
-          <p className="item-vendidos text-sm text-gray-600 mt-2">
-            {instrumento.cantidadVendida} vendidos
-          </p>
-          <div className="mt-2">
-            <span className="font-semibold">Marca:</span> {instrumento.marca}
+            {instrumento.costoEnvio === 'G' ? (
+              <div className="item-envio gratis flex items-center gap-2 text-green-600 mt-2">
+                {/* Icono camión */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="icon icon-tabler icon-tabler-truck"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <circle cx="7" cy="17" r="2" />
+                  <circle cx="17" cy="17" r="2" />
+                  <path d="M5 17h-2v-11a1 1 0 0 1 1-1h9v12m-4 0h6m4 0h2v-6h-8m0-5h5l3 5" />
+                </svg>
+                Envío gratis a todo el país
+              </div>
+            ) : (
+              <p className="item-envio precio text-orange-600 mt-2">
+                Costo de Envío Interior de Argentina: ${instrumento.costoEnvio}
+              </p>
+            )}
+            <p className="item-vendidos text-sm text-gray-600 mt-2">
+              {instrumento.cantidadVendida} vendidos
+            </p>
+            <div className="mt-2">
+              <span className="font-semibold">Marca:</span> {instrumento.marca}
+            </div>
+            <div className="mb-2">
+              <span className="font-semibold">Modelo:</span> {instrumento.modelo}
+            </div>
+            <div className="mt-2">
+              <h3 className="text-lg font-semibold mb-1">Descripción:</h3>
+              <p className="text-gray-700 text-sm whitespace-pre-line">{instrumento.descripcion}</p>
+            </div>
           </div>
-          <div className="mb-2">
-            <span className="font-semibold">Modelo:</span> {instrumento.modelo}
+          <div className="flex flex-col justify-center">
+            <button
+              className={`mt-2 px-4 py-2 border border-blue-400 text-blue-600 rounded hover:bg-blue-50 transition ${
+                agregado ? 'bg-green-100 border-green-400 text-green-700 scale-105' : ''
+              }`}
+              onClick={handleAgregar}
+              disabled={agregado}
+            >
+              {agregado ? '¡Agregado!' : 'Añadir al carrito'}
+            </button>
+            {agregado && (
+              <span className="text-green-600 mt-2 animate-pulse">Producto añadido al carrito</span>
+            )}
           </div>
-          <div className="mt-2">
-            <h3 className="text-lg font-semibold mb-1">Descripción:</h3>
-            <p className="text-gray-700 text-sm whitespace-pre-line">{instrumento.descripcion}</p>
-          </div>
-        </div>
-        <div className="flex flex-col justify-center">
-          <button
-            className={`mt-2 px-4 py-2 border border-blue-400 text-blue-600 rounded hover:bg-blue-50 transition ${
-              agregado ? 'bg-green-100 border-green-400 text-green-700 scale-105' : ''
-            }`}
-            onClick={handleAgregar}
-            disabled={agregado}
-          >
-            {agregado ? '¡Agregado!' : 'Añadir al carrito'}
-          </button>
-          {agregado && (
-            <span className="text-green-600 mt-2 animate-pulse">Producto añadido al carrito</span>
-          )}
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }
 

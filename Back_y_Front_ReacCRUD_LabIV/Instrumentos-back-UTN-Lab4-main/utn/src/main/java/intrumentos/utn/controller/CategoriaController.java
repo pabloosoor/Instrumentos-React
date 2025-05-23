@@ -4,8 +4,13 @@ import intrumentos.utn.model.Categoria;
 import intrumentos.utn.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+
 
 import java.util.List;
 
@@ -35,6 +40,8 @@ public class CategoriaController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Categoria> create(@RequestBody Categoria categoria) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Usuario autenticado: " + auth.getName() + ", roles: " + auth.getAuthorities());
         Categoria saved = service.save(categoria);
         return ResponseEntity.ok(saved);
     }
@@ -54,7 +61,12 @@ public class CategoriaController {
         if (categoria == null) {
             return ResponseEntity.notFound().build();
         }
-        service.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            service.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (DataIntegrityViolationException e) {
+            // Esto ocurre si hay instrumentos asociados a la categoría
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 }

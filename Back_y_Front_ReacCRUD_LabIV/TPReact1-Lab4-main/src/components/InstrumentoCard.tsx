@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Instrumento } from '../models/Instrumento';
 import { useCarrito } from '../hooks/UseCarrito';
+import { useState } from 'react';
 
 function InstrumentoCard({
   instrumento,
@@ -8,6 +9,13 @@ function InstrumentoCard({
   readonly instrumento: Instrumento;
 }) {
   const { addCarrito } = useCarrito();
+  const [agregado, setAgregado] = useState(false);
+
+  const handleAgregar = () => {
+    addCarrito(instrumento);
+    setAgregado(true);
+    setTimeout(() => setAgregado(false), 1500);
+  };
 
   return (
     <div className="w-72 flex flex-col item-container bg-white shadow-lg rounded-lg overflow-hidden p-3 transition-transform duration-300 hover:scale-105">
@@ -60,11 +68,17 @@ function InstrumentoCard({
       </Link>
       <div className="flex flex-col justify-center">
         <button
-          className="mt-2 px-4 py-2 border border-blue-400 text-blue-600 rounded hover:bg-blue-50 transition"
-          onClick={() => addCarrito(instrumento)}
+          className={`mt-2 px-4 py-2 border border-blue-400 text-blue-600 rounded hover:bg-blue-50 transition ${
+            agregado ? 'bg-green-100 border-green-400 text-green-700 scale-105' : ''
+          }`}
+          onClick={handleAgregar}
+          disabled={agregado}
         >
-          Añadir al carrito
+          {agregado ? '¡Agregado!' : 'Añadir al carrito'}
         </button>
+        {agregado && (
+          <span className="text-green-600 mt-2 animate-pulse">Producto añadido al carrito</span>
+        )}
       </div>
     </div>
   );
