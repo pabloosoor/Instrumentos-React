@@ -112,6 +112,8 @@ Este sistema permite a usuarios y administradores:
 ![image](https://github.com/user-attachments/assets/8abe0860-6aba-41e3-b1ff-fc7c2ce29b24)
 ![image](https://github.com/user-attachments/assets/7cc32b35-a348-45a9-afba-0ec5fb37c34e)
 ![image](https://github.com/user-attachments/assets/0d36757b-8021-4bca-b8b3-d1cb33805367)
+![image](https://github.com/user-attachments/assets/a257d78b-92b6-4987-adbc-ae20282c5f83)
+
 
 
 
